@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,知识点," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="抽象类是对事物的抽象,接口是对行为的规范。">
+<meta name="keywords" content="java,知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抽象类和接口">
+<meta property="og:url" content="http://yoursite.com/2017/10/13/Interfaces_and_abstract classes/index.html">
+<meta property="og:site_name" content="弘观世界">
+<meta property="og:description" content="抽象类是对事物的抽象,接口是对行为的规范。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-18T01:44:11.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="抽象类和接口">
+<meta name="twitter:description" content="抽象类是对事物的抽象,接口是对行为的规范。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/13/Interfaces_and_abstract classes/"/>
+
+
+
+
+
+  <title>抽象类和接口 | 弘观世界</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">弘观世界</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">星辰之于日月，亦可争光</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/Interfaces_and_abstract classes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="蒲弘宇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="弘观世界">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">抽象类和接口</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T21:39:01+08:00">
+                2017-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术探索/" itemprop="url" rel="index">
+                    <span itemprop="name">技术探索</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,630
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center>抽象类是对事物的抽象,接口是对行为的规范。</center>
+
+<a id="more"></a>
+<h1 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h1><p>交通工具：汽车、飞机、船</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Aeroplane</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Ship</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="抽象类："><a href="#抽象类：" class="headerlink" title="抽象类："></a>抽象类：</h2><p>所有的交通工具都有一些共性，我们如果为每个交通工具设置相同的属性和行为就显得太麻烦，这时我们需要定义一个抽象类“交通工具”提取出各交通工具的共有属性与行为。</p>
+<p>属性：品牌、型号、开始服役日期</p>
+<p>行为：补充燃料</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TrafficTools</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> String brands;</div><div class="line">    <span class="keyword">public</span> String number;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> serviceDate;</div><div class="line">    </div><div class="line">    <span class="comment">//补充燃料</span></div><div class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">refuel</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面refuel()这个方法是抽象方法,在抽象类中不做实现，因为不同交通工具补充燃料的方式五花八门，所以由继承的子类具体实现该方法</p>
+<p>这时我们定义“汽车”就很方便了，用“汽车”继承“交通工具”它就直接拥有交通工具的基本属性和行为了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Car</span> <span class="keyword">extends</span> <span class="title">TrafficTools</span></span>&#123;</div><div class="line">    <span class="comment">//补充燃料</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refuel</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//加油...</span></div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="接口："><a href="#接口：" class="headerlink" title="接口："></a>接口：</h2><p>不同的交通工具的行为方式是有区别的，汽车是行驶，飞机是飞行、船是航行。</p>
+<p>我们以飞机为例，正常飞行过程需要三个步骤：  </p>
+<ol>
+<li>起飞</li>
+<li>飞行</li>
+<li>降落</li>
+</ol>
+<p>带有飞行功能的飞机如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Aeroplane</span> <span class="keyword">extends</span> <span class="title">TrafficTools</span></span>&#123;</div><div class="line">    <span class="comment">//补充燃料</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refuel</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//起飞</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeOff</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//飞行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flight</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//降落</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">landing</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后我们再来一个交通工具“热气球”，它依然具有飞行功能，而且飞行过程和“飞机”一样，这时我们就需要统一一下飞行这个功能了，毕竟同样的飞行功能，我们不能乱写，方法名要统一，takeOff()不能随便变成take_off()或takeoff()。所以我们就定义一个接口来规范飞行这个功能.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">interface</span> <span class="title">Fly</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">//起飞</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeOff</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">//飞行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flight</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">//降落</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">landing</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实现飞行接口的类，飞行的方法都是整齐划一的了。 </p>
+<p>热气球如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">HotAirBalloon</span> <span class="keyword">extends</span> <span class="title">TrafficTools</span> <span class="keyword">implements</span> <span class="title">Fly</span></span>&#123;</div><div class="line">    <span class="comment">//补充燃料</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refuel</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//起飞</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeOff</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//飞行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flight</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//降落</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">landing</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果我们再给“飞机”、“热气球”加上投弹功能，再定义一个接口投弹：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">interface</span> <span class="title">Bomb</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">//装填</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">    <span class="comment">//投放</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PutOn</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>同时实现飞行和投弹功能的“热气球：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">HotAirBalloon</span> <span class="keyword">extends</span> <span class="title">TrafficTools</span> <span class="keyword">implements</span> <span class="title">Fly</span>,<span class="title">Bomb</span></span>&#123;</div><div class="line">    <span class="comment">//补充燃料</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refuel</span><span class="params">()</span></span>&#123;</div><div class="line">    </div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//起飞</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeOff</span><span class="params">()</span></span>&#123;</div><div class="line">    </div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//飞行</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flight</span><span class="params">()</span></span>&#123;</div><div class="line">    </div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//降落</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">landing</span><span class="params">()</span></span>&#123;</div><div class="line">    </div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//装填</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span></span>&#123;</div><div class="line">        </div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">//投放</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PutOn</span><span class="params">()</span></span>&#123;</div><div class="line">        </div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><h2 id="本质："><a href="#本质：" class="headerlink" title="本质："></a>本质：</h2><p>抽象类–&gt;像xxx一样  </p>
+<p>接    口–&gt;能xxx这样</p>
+<p>抽象类是由下至上，由子类的共性提取出抽象类应该有的属性和行为，以便以在创建新的子类时更方便的获得这些共性。</p>
+<p>接口是由上至下，由接口对实现类的某些功能进行约束和规范，以便于新的类能够快速、统一的实现这些功能。</p>
+<p>又比如：电脑和手机都是电子设备，所以它们都需要电源、CPU，电脑的输入设备是鼠标键盘，是通过USB接口连接的。这里“电子设备”就是一个抽象类，电脑、手机都是它的子类，USB就是一个接口。但是如果新定义一种电子设备也想用鼠标键盘来实现输入，这时我们就不能自己再单独定义了连接方式了，因为这已经是一套规范了，键盘鼠标都是提供的USB接口连接，所以新的设备想使用键盘鼠标也必须实现USB接口。</p>
+<h2 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h2><h3 id="抽象类只能单继承，接口可以多实现。"><a href="#抽象类只能单继承，接口可以多实现。" class="headerlink" title="抽象类只能单继承，接口可以多实现。"></a>抽象类只能单继承，接口可以多实现。</h3><p>因为类的定义必须明确，一个事物是什么就是什么，它不能既是这个，又是那个。比如一个Java工程师，也许他还会PHP，会iOS，但是他就不能叫PHP工程师，也不能叫iOS工程师，因为他的职位是Java工程师，他只是实现了其他这些技能接口而已。HR招人也只是会定向招，先确定职位再研究你的技能。如果你这些技能实在是都精通，觉得只是找Java工程师太low了，想找一个新的定位方便要价。这时你就需要重新定义一个类叫“全栈工程师”，别人一看就知道你啥都会了。</p>
+<h3 id="抽象类和接口都不能自己实例化对象"><a href="#抽象类和接口都不能自己实例化对象" class="headerlink" title="抽象类和接口都不能自己实例化对象"></a>抽象类和接口都不能自己实例化对象</h3><p>因为抽象方法本身没有具体实现，创建的对象调用这些方法没有任何意义。所以拥有抽象方法的类一定是抽象类，只能通过子类继承才能体现它的价值所在。</p>
+<h3 id="抽象类可以提供成员方法的实现细节，而接口中只能存在抽象方法"><a href="#抽象类可以提供成员方法的实现细节，而接口中只能存在抽象方法" class="headerlink" title="抽象类可以提供成员方法的实现细节，而接口中只能存在抽象方法"></a>抽象类可以提供成员方法的实现细节，而接口中只能存在抽象方法</h3><p>因为抽象类是提取的子类的共性得到的，子类只是它逻辑的延伸，所以它能够代替子类实现一些子类共有的逻辑，而接口从本质来说就是制定规范，规范制定好了，怎么做都是实现类自己的事</p>
+<h3 id="抽象方法在子类或实现类中都是强制实现的"><a href="#抽象方法在子类或实现类中都是强制实现的" class="headerlink" title="抽象方法在子类或实现类中都是强制实现的"></a>抽象方法在子类或实现类中都是强制实现的</h3><p>对于抽象类来说，抽象方法就是每个子类都该有的行为才能拿出来作为抽象方法，有些子类有这个方法有些子类没有呀，那这也根本不叫共性，也就不能单独作为抽象方法。</p>
+<p>对于接口来说，接口本来就是规范作用，规范的意义就在于遵守，所以接口里的方法就不管三七二十一只管写就是了。</p>
+<h3 id="抽象类里面可以没有抽象方法，但有抽象方法的类一定是抽象类"><a href="#抽象类里面可以没有抽象方法，但有抽象方法的类一定是抽象类" class="headerlink" title="抽象类里面可以没有抽象方法，但有抽象方法的类一定是抽象类"></a>抽象类里面可以没有抽象方法，但有抽象方法的类一定是抽象类</h3><p>没有抽象方法的抽象类意义不大</p>
+<h3 id="抽象方法不能是静态的static，也不能是私有的private"><a href="#抽象方法不能是静态的static，也不能是私有的private" class="headerlink" title="抽象方法不能是静态的static，也不能是私有的private"></a>抽象方法不能是静态的static，也不能是私有的private</h3><p>因为抽象类是不能实例化的，即不能被分配内存;而static修饰的方法在类实例化之前就已经别分配了内存，这样一来矛盾就出现了：抽象类不能被分配内存，而static方法必须被分配内存。所以抽象类中不能有静态的抽象方法。<br>定义抽象方法目的就是让子类去具体实现，所以不能是私有的，要让子类能够访问。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+	
+	 <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i>java</a>
+          
+            <a href="/tags/知识点/" rel="tag"><i class="fa fa-tag"></i>知识点</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/16/Rxjava/" rel="next" title="RxJava入门简介">
+                <i class="fa fa-chevron-left"></i> RxJava入门简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/15/polymorphism/" rel="prev" title="面向对象中的多态">
+                面向对象中的多态 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="蒲弘宇" />
+          
+            <p class="site-author-name" itemprop="name">蒲弘宇</p>
+            <p class="site-description motion-element" itemprop="description">生当作人杰</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/phyDream" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-GitHub"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2929952381/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实例："><span class="nav-number">1.</span> <span class="nav-text">实例：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类："><span class="nav-number">1.1.</span> <span class="nav-text">抽象类：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口："><span class="nav-number">1.2.</span> <span class="nav-text">接口：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结："><span class="nav-number">2.</span> <span class="nav-text">总结：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本质："><span class="nav-number">2.1.</span> <span class="nav-text">本质：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点："><span class="nav-number">2.2.</span> <span class="nav-text">注意点：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类只能单继承，接口可以多实现。"><span class="nav-number">2.2.1.</span> <span class="nav-text">抽象类只能单继承，接口可以多实现。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类和接口都不能自己实例化对象"><span class="nav-number">2.2.2.</span> <span class="nav-text">抽象类和接口都不能自己实例化对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类可以提供成员方法的实现细节，而接口中只能存在抽象方法"><span class="nav-number">2.2.3.</span> <span class="nav-text">抽象类可以提供成员方法的实现细节，而接口中只能存在抽象方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象方法在子类或实现类中都是强制实现的"><span class="nav-number">2.2.4.</span> <span class="nav-text">抽象方法在子类或实现类中都是强制实现的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类里面可以没有抽象方法，但有抽象方法的类一定是抽象类"><span class="nav-number">2.2.5.</span> <span class="nav-text">抽象类里面可以没有抽象方法，但有抽象方法的类一定是抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象方法不能是静态的static，也不能是私有的private"><span class="nav-number">2.2.6.</span> <span class="nav-text">抽象方法不能是静态的static，也不能是私有的private</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蒲弘宇</span>
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

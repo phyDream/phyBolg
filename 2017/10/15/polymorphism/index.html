@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,知识点，面向对象," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="多态:简而言之就是同一个行为具有多个不同表现形式或形态的能力">
+<meta name="keywords" content="java,知识点，面向对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向对象中的多态">
+<meta property="og:url" content="http://yoursite.com/2017/10/15/polymorphism/index.html">
+<meta property="og:site_name" content="弘观世界">
+<meta property="og:description" content="多态:简而言之就是同一个行为具有多个不同表现形式或形态的能力">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-18T03:46:27.899Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向对象中的多态">
+<meta name="twitter:description" content="多态:简而言之就是同一个行为具有多个不同表现形式或形态的能力">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/15/polymorphism/"/>
+
+
+
+
+
+  <title>面向对象中的多态 | 弘观世界</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">弘观世界</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">星辰之于日月，亦可争光</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/15/polymorphism/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="蒲弘宇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="弘观世界">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面向对象中的多态</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-15T21:39:01+08:00">
+                2017-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术探索/" itemprop="url" rel="index">
+                    <span itemprop="name">技术探索</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,309
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center>多态:简而言之就是同一个行为具有多个不同表现形式或形态的能力</center>
+
+<a id="more"></a>
+<h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p>我们都知道面向对象有三大特性：<strong>封装、继承、多态</strong></p>
+<p>其中封装和继承都很好理解，唯独多态理解起来可能有些抽象。</p>
+<h2 id="什么是多态："><a href="#什么是多态：" class="headerlink" title="什么是多态："></a>什么是多态：</h2><p>我个人的理解是同一个行为具有不同的表现形式，比如说“移动”这一行为，不同的交通工具，比如：汽车、飞机、轮船的移动方式都是不一样的，但它们都是执行移动这一行为。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrafficTool</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"普通移动"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> <span class="keyword">extends</span> <span class="title">TrafficTool</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"行驶"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aeroplane</span> <span class="keyword">extends</span> <span class="title">TrafficTool</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"飞行"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Steamer</span> <span class="keyword">extends</span> <span class="title">TrafficTool</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"航行"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMove</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        TrafficTool t = <span class="keyword">new</span> Car();</div><div class="line">        t.move();</div><div class="line"></div><div class="line">        t = <span class="keyword">new</span> Aeroplane();</div><div class="line">        t.move();</div><div class="line"></div><div class="line">        t = <span class="keyword">new</span> Steamer();</div><div class="line">        t.move();</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//结果:</span></div><div class="line"><span class="comment">//行驶</span></div><div class="line"><span class="comment">//飞行</span></div><div class="line"><span class="comment">//航行</span></div></pre></td></tr></table></figure>
+<p>在上面例子中，汽车、飞机、轮船都是作为交通工具在进行移动这一行为，但是它们各自移动的方式不同，也就是说它们同是交通工具却表现除了不同的状态。</p>
+<h2 id="多态的分类："><a href="#多态的分类：" class="headerlink" title="多态的分类："></a>多态的分类：</h2><p><strong>重写式多态和重载式多态</strong></p>
+<ul>
+<li>重载式多态：</li>
+</ul>
+<p><strong>重载</strong>是方法名相同而参数列表不同的一组方法就是重载，在调用这种重载的方法时，通过传入不同的参数最后得到不同的结果。根据个人理解不同，也许有人认为重载不算是多态，但从逻辑角度来说，重载满足<strong>同一行为有不同的表现形式</strong>这种说法，因为重载时，方法名都一样，但通过传入不同类型、不同个数的参数，我们就能得到不同的结果。</p>
+<ul>
+<li>重写式多态：</li>
+</ul>
+<p>这就是面向对象中真正意义上的多态了，它是通过<strong>动态绑定</strong>（dynamic binding）来实现的，也就是运行时多态。交通工具要调用移动这一方法，但我们要知道他是具体哪个交通工具才能确定怎么移动。</p>
+<h2 id="重写式多态："><a href="#重写式多态：" class="headerlink" title="重写式多态："></a>重写式多态：</h2><p><strong>重写</strong>涉及到面向对象特性中的<strong>继承</strong>，子类继承了父类中的方法才能有重写这一说法。 上面例子中说到的TrafficTool，它具有move()这一方法，它的子类们也都具有move()这一方法，并且方法名都一样，只是在父类的基础上，根据自己的特性，重新定义move()这一方法的具体实现。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">        TrafficTool t = <span class="keyword">new</span> Car();</div><div class="line">        t.move();</div><div class="line"></div><div class="line">        t = <span class="keyword">new</span> Aeroplane();</div><div class="line">        t.move();</div><div class="line"></div><div class="line">        t = <span class="keyword">new</span> Steamer();</div><div class="line">        t.move();</div><div class="line"></div><div class="line"><span class="comment">//结果:</span></div><div class="line"><span class="comment">//行驶</span></div><div class="line"><span class="comment">//飞行</span></div><div class="line"><span class="comment">//航行</span></div></pre></td></tr></table></figure>
+<p>最后我们用相同的引用，调用了三次相同的方法，结果却不同。  </p>
+<p>区别就在于这三个引用指向的对象本质上是不同的，汽车是汽车，飞机是飞机，不过我们把他们都当作交通工具而已，像这样把父类当做子类来用，就是所谓的<strong>向上转型</strong>。  </p>
+<p>就比如我说我要从成都出发去上海，我说出这句话时，你根本不知道我通过什么交通工具去，但我出发的时候肯定只能选一种交通工具，其实我之前已经订好票坐飞机去，所以我出发的时候，调用的是飞机实现的move()方法。 </p>
+<p>向上转型意义在于我们需要大量调用父类的共有方法时，不用管具体是哪个子类调用该方法，当执行到这一方法时，它自己就会调用对应子类的实现。</p>
+<p>例子：</p>
+<p>模拟加油站给来往车辆加油：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Truck</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"加柴油"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"加柴油"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Benz</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"加更好的汽油"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GasStation</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">(Truck t)</span></span>&#123;</div><div class="line">        t.refueling();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">(Car c)</span></span>&#123;</div><div class="line">        t.refueling();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">(Benz bc)</span></span>&#123;</div><div class="line">        t.refueling();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestRefueling</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        GasStation g = <span class="keyword">new</span> GasStation();</div><div class="line">        g.refueling(<span class="keyword">new</span> Truck());</div><div class="line">        g.refueling(<span class="keyword">new</span> Car());</div><div class="line">        g.refueling(<span class="keyword">new</span> Benz());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>好像看着没什么毛病，但如果车的类型更多了呢，拖拉机、货车、客车、摩托车，那样的话GasStation中会为每一种车都写一个refueling方法。明明方法名都一样，方法内容也是一样，这样是不是太麻烦了，我们这是就可以利用<strong>向上转型</strong>了，实现车的<strong>多态</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义所有车的父类</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AllCar</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Truck</span> <span class="title">extend</span> <span class="title">AllCar</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"加柴油"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> <span class="title">extend</span> <span class="title">AllCar</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"加柴油"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Benz</span> <span class="title">extend</span> <span class="title">AllCar</span></span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refueling</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"加更好的汽油"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这时加油站中就只用写一个方法了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public class GasStation &#123;</div><div class="line">    public void refueling(AllCar a)&#123;</div><div class="line">        a.refueling();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class TestRefueling&#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        GasStation g = new GasStation();</div><div class="line">        g.refueling(new Truck());</div><div class="line">        g.refueling(new Car());</div><div class="line">        g.refueling(new Benz());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="经典案例"><a href="#经典案例" class="headerlink" title="经典案例:"></a>经典案例:</h1><p>求Demo中输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="comment">//方法1</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(D obj)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="string">"A and D"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//方法2</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="string">"A and A"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;</div><div class="line">    <span class="comment">//方法3</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(B obj)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="string">"B and B"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//方法4</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="string">"B and A"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        A a1 = <span class="keyword">new</span> A();</div><div class="line">        A a2 = <span class="keyword">new</span> B();</div><div class="line">        B b = <span class="keyword">new</span> B();</div><div class="line">        C c = <span class="keyword">new</span> C();</div><div class="line">        D d = <span class="keyword">new</span> D();</div><div class="line"></div><div class="line">        System.out.println(<span class="string">"1--"</span> + a1.show(b));</div><div class="line">        System.out.println(<span class="string">"2--"</span> + a1.show(c));</div><div class="line">        System.out.println(<span class="string">"3--"</span> + a1.show(d));</div><div class="line">        System.out.println(<span class="string">"4--"</span> + a2.show(b));</div><div class="line">        System.out.println(<span class="string">"5--"</span> + a2.show(c));</div><div class="line">        System.out.println(<span class="string">"6--"</span> + a2.show(d));</div><div class="line">        System.out.println(<span class="string">"7--"</span> + b.show(b));</div><div class="line">        System.out.println(<span class="string">"8--"</span> + b.show(c));</div><div class="line">        System.out.println(<span class="string">"9--"</span> + b.show(d));</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//结果：</span></div><div class="line"><span class="comment">//1--A and A</span></div><div class="line"><span class="comment">//2--A and A</span></div><div class="line"><span class="comment">//3--A and D</span></div><div class="line"><span class="comment">//4--B and A</span></div><div class="line"><span class="comment">//5--B and A</span></div><div class="line"><span class="comment">//6--A and D</span></div><div class="line"><span class="comment">//7--B and B</span></div><div class="line"><span class="comment">//8--B and B</span></div><div class="line"><span class="comment">//9--A and D</span></div></pre></td></tr></table></figure>
+<h2 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h2><ul>
+<li><p>a1.show(b):<br>a1 对象本质是实例化的A，也就是说他本身就是A。<br>那自然就是调用的A中的方法，A中有两个方法，参数分别是A和D的对象，这里传入的是B，他是A的子类所以能向上转型成A，满足条件，所以调用的是方法1</p>
+</li>
+<li><p>a1.show(c): 理由同上调用的是方法1</p>
+</li>
+<li><p>a1.show(d):<br>方法中传入的参数是D的对象，所以自然调用的是方法2</p>
+</li>
+</ul>
+<p> 在作下面的解释前，我们需要先了解A和B中的方法： </p>
+<ol>
+<li>A作为父类有自己的方法和子类重写自父类的方法。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自有</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(D obj)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="string">"A and D"</span>);</div><div class="line">     &#125;</div><div class="line">     <span class="comment">//被B重写的方法</span></div><div class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span> </span>&#123;</div><div class="line">         <span class="keyword">return</span> (<span class="string">"A and A"</span>);</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>B作为A的子类，不仅有自己的方法，还有继承自A的方法和重写自A的方法。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//隐式的继承自A</span></div><div class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(D obj)</span> </span>&#123;</div><div class="line">         <span class="keyword">return</span> (<span class="string">"A and D"</span>);</div><div class="line">    &#125;</div><div class="line">     <span class="comment">//自有（非继承和重写）,父类不能调用</span></div><div class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(B obj)</span></span>&#123;</div><div class="line">         <span class="keyword">return</span> (<span class="string">"B and B"</span>);</div><div class="line">     &#125;</div><div class="line">     <span class="comment">//重写的方法</span></div><div class="line">     <span class="function"><span class="keyword">public</span> String <span class="title">show</span><span class="params">(A obj)</span></span>&#123;</div><div class="line">         <span class="keyword">return</span> (<span class="string">"B and A"</span>);</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>a2.show(b):<br>a2 是A的引用，但他是实例化的B向上转型得来的，所以这里传入b会先在B类中找方法，刚好找到方法show(B obj),但是a2是A的引用，不能调用B的自有方法，所以只能找到方法4<br>，方法4是重写的A中方法，可以被A的引用a2调用,刚好这里传入的对象b是A的子类可以向上转型，满足条件，所以调用的是方法4。</li>
+</ul>
+<ul>
+<li><p>a2.show(c):<br>a2 是A的引用，但他是实例化的B向上转型得来的，所以这里传入c会先在B类中找方法，找到方法show(B obj),但是a2是A的引用，不能调用B的自有方法，所以只能找到方法4<br>，方法4是重写的A中方法，可以被A的引用a2调用,刚好这里传入的对象c是A的孙子类可以向上转型，满足条件，所以调用的是方法4。</p>
+</li>
+<li><p>a2.show(d):<br>a2 是A的引用，但他是实例化的B向上转型得来的，所以这里传入d会先在B类中找方法，B类中刚好存在隐式继承自A的方法show(D obj)满足条件，所以调用的方法1。</p>
+</li>
+<li><p>b.show(b):<br>b 是B的引用，也是实例化的B，所以这里传入b直接在B类中找方法，方法3正好需要的是B,而且没有被子类重写，满足条件，所以调用的是方法3。</p>
+</li>
+<li><p>b.show(c):<br>b 是B的引用，也是实例化的B，他有继承自A中的两个父类方法，也有B中自有两个方法，其中方法4是重写的A中方法2，所以这里传入c直接在B类中找方法，方法3需要的是B,C是B的子类，可以向上转型成B,且方法3没有被子类重写，满足条件，所以还是调用的方法3。</p>
+</li>
+<li><p>b.show(d):  </p>
+</li>
+</ul>
+<p>b 是B的引用，也是实例化的B，所以这里传入d直接在B类中找方法，B类中刚好存在隐式继承自A的方法show(D obj)满足条件，所以调用的方法1。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>继承链中对象方法的调用的优先级：this.show(O)、super.show(O)、this.show((super)O)、super.show((super)O)。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+	
+	 <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i>java</a>
+          
+            <a href="/tags/知识点，面向对象/" rel="tag"><i class="fa fa-tag"></i>知识点，面向对象</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/13/Interfaces_and_abstract classes/" rel="next" title="抽象类和接口">
+                <i class="fa fa-chevron-left"></i> 抽象类和接口
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="蒲弘宇" />
+          
+            <p class="site-author-name" itemprop="name">蒲弘宇</p>
+            <p class="site-description motion-element" itemprop="description">生当作人杰</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/phyDream" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-GitHub"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2929952381/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念："><span class="nav-number">1.</span> <span class="nav-text">概念：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是多态："><span class="nav-number">1.1.</span> <span class="nav-text">什么是多态：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态的分类："><span class="nav-number">1.2.</span> <span class="nav-text">多态的分类：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重写式多态："><span class="nav-number">1.3.</span> <span class="nav-text">重写式多态：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#经典案例"><span class="nav-number">2.</span> <span class="nav-text">经典案例:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析："><span class="nav-number">2.1.</span> <span class="nav-text">解析：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结："><span class="nav-number">2.2.</span> <span class="nav-text">总结：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蒲弘宇</span>
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
