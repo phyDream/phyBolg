@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="View在Activity中显示出来，要经历测量、布局和绘制三个步骤，分别对应三个动作：measure、layout和draw。">
+<meta name="keywords" content="Android基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自定义View入门">
+<meta property="og:url" content="http://yoursite.com/2017/10/26/view1/index.html">
+<meta property="og:site_name" content="弘观世界">
+<meta property="og:description" content="View在Activity中显示出来，要经历测量、布局和绘制三个步骤，分别对应三个动作：measure、layout和draw。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ow0s809ce.bkt.clouddn.com/view1.png">
+<meta property="og:image" content="http://ow0s809ce.bkt.clouddn.com/view2.png">
+<meta property="og:image" content="http://ow0s809ce.bkt.clouddn.com/view3.png">
+<meta property="og:updated_time" content="2017-10-27T07:11:33.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android自定义View入门">
+<meta name="twitter:description" content="View在Activity中显示出来，要经历测量、布局和绘制三个步骤，分别对应三个动作：measure、layout和draw。">
+<meta name="twitter:image" content="http://ow0s809ce.bkt.clouddn.com/view1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/26/view1/"/>
+
+
+
+
+
+  <title>Android自定义View入门 | 弘观世界</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">弘观世界</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">星辰之于日月，亦可争光</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/26/view1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="蒲弘宇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="弘观世界">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android自定义View入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T21:39:01+08:00">
+                2017-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术探索/" itemprop="url" rel="index">
+                    <span itemprop="name">技术探索</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,226
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  19
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center>View在Activity中显示出来，要经历测量、布局和绘制三个步骤，分别对应三个动作：measure、layout和draw。</center>
+
+<a id="more"></a>
+<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>Android本身是提供了很多控件的，基于这些控件，我们已经能够完成大部分应用层的开发，但是难免会遇到系统控件不能满足当前需求的情况，这时就需要我们根据需求来实现自定义View。</p>
+<h1 id="自定义View的分类："><a href="#自定义View的分类：" class="headerlink" title="自定义View的分类："></a>自定义View的分类：</h1><h2 id="1、继承特定的View"><a href="#1、继承特定的View" class="headerlink" title="1、继承特定的View"></a>1、继承特定的View</h2><p>这是最常见的一种使用方式，用在对已有View（比如：TextView）的拓展，这种方式比较容易实现，不用考虑wrap_content和padding等。</p>
+<h2 id="2、继承特定的ViewGroup"><a href="#2、继承特定的ViewGroup" class="headerlink" title="2、继承特定的ViewGroup"></a>2、继承特定的ViewGroup</h2><p>这种使用方式也很常见，继承常见的ViewGroup（比如：LinearLayout、RelativeLayout）常用于整合View，几种View组合在一起使用频率较高时，可以把他们归整为一个ViewGroup方便复用也能使逻辑更清晰。</p>
+<h2 id="3、直接继承View"><a href="#3、直接继承View" class="headerlink" title="3、直接继承View"></a>3、直接继承View</h2><p>这种就是遇到原生提供的View都无法满足的需求时，我们只能自己画图形，自定义交互效果了，这种方式需要我们自己定义wrap_content和padding。</p>
+<h2 id="4、直接继承ViewGourp"><a href="#4、直接继承ViewGourp" class="headerlink" title="4、直接继承ViewGourp"></a>4、直接继承ViewGourp</h2><p>即是自己定义一种新的布局方式，当某种效果看起来很像几种View组合在一起时，可以采用这种方式来实现。采用这种方式的测量和布局两个过程会更复杂一些。</p>
+<h1 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h1><p>引入一个案例来更好的解读自定义View</p>
+<p>  实现如下图所示的柱状图：</p>
+<p><img src="http://ow0s809ce.bkt.clouddn.com/view1.png" alt="image"></p>
+<p>流程：<strong>构造函数</strong> - <strong>测量</strong> - <strong>布局</strong> - <strong>绘制</strong> - <strong>设置点击事件</strong> </p>
+<h2 id="定义一个自定义View"><a href="#定义一个自定义View" class="headerlink" title="定义一个自定义View"></a>定义一个自定义View</h2><ol>
+<li>命名：</li>
+</ol>
+<p>由于需要自己定义形状，需要重新绘制图形，所以直接继承View</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListChartView</span> <span class="keyword">extends</span> <span class="title">View</span></span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>定义全局变量：(很多变量开始时不能确定，是绘制过程中按需要添加的)</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Paint mChartPaint; <span class="comment">//柱状图画笔</span></div><div class="line"><span class="keyword">private</span> Paint mTextPaint;<span class="comment">//文字画笔</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mChartColor;<span class="comment">//默认柱状图颜色</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mChartColorSelect;<span class="comment">//选中柱状图颜色</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mTextColor;<span class="comment">//文字颜色</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> itemPx;<span class="comment">//柱状图 每百分之一占的像素</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mChartWidth;<span class="comment">//View宽</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mChartHeight;<span class="comment">//View高</span></div><div class="line"><span class="keyword">private</span> List&lt;ChartItem&gt; charts <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//数据源</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> chartCount;<span class="comment">//柱状图列数</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> chartItewWidth;<span class="comment">//每根柱状图宽度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> selectChartIndex = -<span class="number">1</span>;<span class="comment">//当前选中列数</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> textSize;<span class="comment">//文字大小</span></div></pre></td></tr></table></figure>
+<p>ChartItem是表示单位柱状图包含的内容的实体</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChartItem</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;<span class="comment">//科目名</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number;<span class="comment">//分数</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getNumber</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> number;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNumber</span><span class="params">(<span class="keyword">int</span> number)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.number = number;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"ChartItem&#123;"</span> +</div><div class="line">                <span class="string">"name='"</span> + name + <span class="string">'\''</span> +</div><div class="line">                <span class="string">", number="</span> + number +</div><div class="line">                <span class="string">'&#125;'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>创建构造函数：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 如果View是在Java代码里面new的，则调用第一个构造函数</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ListChartView</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>(context,<span class="keyword">null</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 如果View是在.xml里声明的，则调用第二个构造函数</span></div><div class="line"><span class="comment">// 自定义属性是从AttributeSet参数传进来的</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ListChartView</span><span class="params">(Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>(context, attrs,<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 不会自动调用</span></div><div class="line"><span class="comment">// 一般是在第二个构造函数里主动调用</span></div><div class="line"><span class="comment">// 如View有style属性时   </span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ListChartView</span><span class="params">(Context context, @Nullable AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>(context, attrs, defStyleAttr);</div><div class="line">    TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ListChartView,defStyleAttr,<span class="number">0</span>);</div><div class="line">    <span class="keyword">int</span> count = array.getIndexCount();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">        <span class="keyword">int</span> attr = array.getIndex(i);</div><div class="line">        <span class="keyword">switch</span> (attr)&#123;</div><div class="line">            <span class="keyword">case</span> R.styleable.ListChartView_list_chart_color:</div><div class="line">                mChartColor = array.getColor(attr,Color.GREEN);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.styleable.ListChartView_list_chart_color_select:</div><div class="line">                mChartColorSelect = array.getColor(attr,Color.GREEN);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.styleable.ListChartView_list_text_color:</div><div class="line">                mTextColor = array.getColor(attr,Color.BLACK);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.styleable.ListChartView_chart_item_width:</div><div class="line">                chartItewWidth = DensityUtil.dip2px(context,attr);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    init();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>View的构造函数：共有4个，常用的就以上三个</p>
+<p>构造函数中参数的意义：参考<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0806/4575.html" target="_blank" rel="external">深入理解Android View的构造函数</a></p>
+<p>以下这句是为了获取自定义属性集合:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ListChartView,defStyleAttr,<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>该View的自定义属性如下（柱状图颜色，选中的柱状图颜色，文字颜色，柱状图宽度）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">"ListChartView"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"list_chart_color"</span> <span class="attr">format</span>=<span class="string">"color"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"list_chart_color_select"</span> <span class="attr">format</span>=<span class="string">"color"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"list_text_color"</span> <span class="attr">format</span>=<span class="string">"color"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"chart_item_width"</span> <span class="attr">format</span>=<span class="string">"dimension"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="测量宽高："><a href="#测量宽高：" class="headerlink" title="测量宽高："></a>测量宽高：</h2><p>重写onMeasure方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">        <span class="keyword">int</span> width;</div><div class="line">        <span class="keyword">int</span> height;</div><div class="line">        <span class="keyword">int</span> widthSize = MeasureSpec.getSize(widthMeasureSpec);</div><div class="line">        <span class="keyword">int</span> widthMode= MeasureSpec.getMode(widthMeasureSpec);</div><div class="line">        <span class="keyword">int</span> heightSize = MeasureSpec.getSize(heightMeasureSpec);</div><div class="line">        <span class="keyword">int</span> heightMode= MeasureSpec.getMode(heightMeasureSpec);</div><div class="line"></div><div class="line">        <span class="comment">//默认宽就是父控件剩余，默认高是父控件一半</span></div><div class="line">        width = widthSize;</div><div class="line">        <span class="keyword">if</span>(heightMode == MeasureSpec.EXACTLY)&#123;</div><div class="line">            height = heightSize;</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            height = heightSize / <span class="number">2</span>;</div><div class="line">        &#125;</div><div class="line">        setMeasuredDimension(width,height);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>onMeasure方法中的参数widthMeasureSpec和heightMeasureSpec代表的是一组宽度和高度的测量规格.<br>MeasureSpec由两部分组成：<strong>Mode</strong> 和 <strong>Size</strong>，MeasureSpec类通过使用二进制，将mode和size打包成一个int值来减少对象内存分配，用一个变量携带两个数据（size，mode），并提供了打包和解包的方法。子View的MeasureSpec值是根据子View的布局参数（LayoutParams）和父容器的MeasureSpec值计算得来的，具体计算逻辑封装在getChildMeasureSpec()里。</p>
+<p><strong>Mode模式共分为三类:</strong></p>
+<blockquote>
+<p>UNSPECIFIED模式()</p>
+<p>EXACTLY模式</p>
+<p>AT_MOST模式</p>
+</blockquote>
+<p><strong>总结：</strong>  </p>
+<ul>
+<li><p>当子View采用具体数值（dp / px）时<br>无论父容器的测量模式是什么，子View的测量模式都是EXACTLY且大小等于设置的具体数值；</p>
+</li>
+<li><p>当子View采用match_parent时<br>子View的测量模式与父容器的测量模式一致<br>若测量模式为EXACTLY，则子View的大小为父容器的剩余空间；若测量模式为AT_MOST，则子View的大小不超过父容器的剩余空间</p>
+</li>
+<li><p>当子View采用wrap_parent时<br>无论父容器的测量模式是什么，子View的测量模式都是AT_MOST且大小不超过父容器的剩余空间。</p>
+</li>
+</ul>
+<p>所以在该例子中，自定义View需要设置wrap_parent 的 默认大小（我们这里设置的是宽度默认充满父View剩余空间，高度为父View剩余空间一半） 否则wrap_parent的效果会和match_parent一样。最终通过setMeasuredDimension(width,height)设置其宽高。</p>
+<h2 id="View布局："><a href="#View布局：" class="headerlink" title="View布局："></a>View布局：</h2><p>重写onLayout方法</p>
+<p>该方法主要目的是确定View在父View中的位置，但这里我们用来获得得View的最终宽高(<strong>计算宽高时需要考虑Padding</strong>)，一般来说继承View的自定义View位置不用手动调整，该方法主要服务于继承ViewGroup类时<br>调用场景：在view给其孩子设置尺寸和位置时被调用。子view，包括孩子在内，必须重写onLayout(boolean, int, int, int, int)方法，并且调用各自的layout(int, int, int, int)方法。<br>参数说明：参数changed表示view有新的尺寸或位置；参数l表示相对于父view的Left位置；参数t表示相对于父view的Top位置；参数r表示相对于父view的Right位置；参数b表示相对于父view的Bottom位置。.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onLayout(changed, left, top, right, bottom);</div><div class="line">        mChartWidth = getWidth() - getPaddingLeft() - getPaddingRight();</div><div class="line">        mChartHeight = getMeasuredHeight() - getPaddingBottom() - getPaddingTop();</div><div class="line">        itemPx = mChartHeight / <span class="number">110</span>;<span class="comment">//得到每百分之一高度,算上底部文字空间</span></div><div class="line">        chartCount = charts.size();<span class="comment">//得到组数</span></div><div class="line">        chartItewWidth = mChartWidth / (chartCount * <span class="number">2</span> +<span class="number">1</span>);<span class="comment">//每根柱子的宽</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="View绘制："><a href="#View绘制：" class="headerlink" title="View绘制："></a>View绘制：</h2><p>重写onDraw方法</p>
+<p>循环画每一个柱状图</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDraw(canvas);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chartCount; i++) &#123;</div><div class="line">            drawChart(canvas,i);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>Android的坐标系定义为：</p>
+<p>屏幕的左上角为坐标原点</p>
+<p>向右为x轴增大方向</p>
+<p>向下为y轴增大方向</p>
+<p>如下图：</p>
+<p><img src="http://ow0s809ce.bkt.clouddn.com/view2.png" alt="image"></p>
+<blockquote>
+<p>4个顶点的位置描述分别由4个值决定：<br>（请记住：View的位置是相对于父控件而言的）</p>
+<p>Top：子View上边界到父view上边界的距离</p>
+<p>Left：子View左边界到父view左边界的距离</p>
+<p>Bottom：子View下边距到父View上边界的距离</p>
+<p>Right：子View右边界到父view左边界的距离</p>
+</blockquote>
+<p>根据View总的宽高，计算每个柱状图的宽高，得到其4个顶点的位置，注意坐标轴的方向，我设定的是柱状图间的间隔距离和柱状图的宽度相同，所以柱状图的宽度是:总宽度 /（列数+1)</p>
+<p>通过以下方法在画布上绘制图形：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">canvas.drawRoundRect(recF,<span class="number">30</span>,<span class="number">30</span>,mChartPaint);</div><div class="line">canvas.drawText(name,x,y,mTextPaint);</div></pre></td></tr></table></figure>
+<p>绘制细节如下（在绘制过程中判断是否是选中状态，用颜色区分是否选中）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">  * 画第n根柱子</span></div><div class="line"><span class="comment">  * <span class="doctag">@param</span> canvas</span></div><div class="line"><span class="comment">  * <span class="doctag">@param</span> n</span></div><div class="line"><span class="comment">  */</span></div><div class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawChart</span><span class="params">(Canvas canvas,<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">     ChartItem item = charts.get(n);</div><div class="line">     <span class="keyword">int</span> number = item.getNumber();</div><div class="line">     String name = item.getName();</div><div class="line">     <span class="comment">//画柱子</span></div><div class="line">     RectF recF = <span class="keyword">new</span> RectF();</div><div class="line">     recF.top = mChartHeight - (number + <span class="number">10</span>) * itemPx ;</div><div class="line">     recF.left = chartItewWidth * (<span class="number">2</span> * n + <span class="number">1</span>) ;</div><div class="line">     recF.bottom = mChartHeight - <span class="number">10</span> * itemPx;</div><div class="line">     recF.right = chartItewWidth * (<span class="number">2</span> * n + <span class="number">2</span>);</div><div class="line">     <span class="keyword">if</span>(selectChartIndex == n)&#123;</div><div class="line">         mChartPaint.setColor(mChartColorSelect);</div><div class="line">     &#125;<span class="keyword">else</span> &#123;</div><div class="line">         mChartPaint.setColor(mChartColor);</div><div class="line">     &#125;</div><div class="line">     canvas.drawRoundRect(recF,<span class="number">30</span>,<span class="number">30</span>,mChartPaint);</div><div class="line">     <span class="comment">//画文字</span></div><div class="line">     <span class="keyword">int</span> x = chartItewWidth * (<span class="number">2</span> * n + <span class="number">1</span>) + chartItewWidth / <span class="number">2</span>;</div><div class="line">     <span class="keyword">int</span> y = mChartHeight - <span class="number">3</span> * itemPx ;</div><div class="line">     textSize = <span class="number">6</span>*itemPx;</div><div class="line">     mTextPaint.setColor(mTextColor);</div><div class="line">     mTextPaint.setTextSize(textSize);</div><div class="line">     canvas.drawText(name,x,y,mTextPaint);</div><div class="line">     <span class="comment">//画选中文字</span></div><div class="line">     <span class="keyword">if</span>(selectChartIndex == n)&#123;</div><div class="line">         <span class="keyword">int</span> x1 = chartItewWidth * (<span class="number">2</span> * n + <span class="number">1</span>) + chartItewWidth / <span class="number">2</span> - <span class="number">8</span> * itemPx;</div><div class="line">         <span class="keyword">int</span> y1 = mChartHeight - (number + <span class="number">10</span>) * itemPx + <span class="number">3</span> * itemPx;</div><div class="line">         mTextPaint.setTextSize(textSize);</div><div class="line">         canvas.drawText(number+<span class="string">""</span>,x1,y1,mTextPaint);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h2 id="对外提供方法："><a href="#对外提供方法：" class="headerlink" title="对外提供方法："></a>对外提供方法：</h2><p>对外提供设置数据源的方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChars</span><span class="params">(List&lt;ChartItem&gt; chartItems)</span> </span>&#123;</div><div class="line">        charts.clear();</div><div class="line">        charts.addAll(chartItems);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="点击事件："><a href="#点击事件：" class="headerlink" title="点击事件："></a>点击事件：</h2><p>设置自定义View的点击事件，我们需要的效果如下图所示：</p>
+<p><img src="http://ow0s809ce.bkt.clouddn.com/view3.png" alt="image"></p>
+<p>即选点击某柱状图，该柱状图变颜色，并且显示具体分数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//点击事件处理</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> x = (<span class="keyword">int</span>) event.getX();<span class="comment">//触摸点的X坐标</span></div><div class="line">        <span class="keyword">int</span> y = (<span class="keyword">int</span>) event.getY();<span class="comment">//触摸点的Y坐标</span></div><div class="line">        <span class="keyword">switch</span> (event.getAction())&#123;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chartCount; i++) &#123;</div><div class="line">                    ChartItem item = charts.get(i);</div><div class="line">                    <span class="keyword">int</span> number = item.getNumber();</div><div class="line">                    <span class="comment">//计算柱状图坐标</span></div><div class="line">                    <span class="keyword">int</span> top =  mChartHeight - (number + <span class="number">10</span>) * itemPx + getPaddingTop() - chartItewWidth;</div><div class="line">                    <span class="keyword">int</span> left = getPaddingLeft() + chartItewWidth * (<span class="number">2</span> * i + <span class="number">1</span>) - chartItewWidth/<span class="number">3</span>;</div><div class="line">                    <span class="keyword">int</span> right = getPaddingLeft() + chartItewWidth * (<span class="number">2</span> * i + <span class="number">2</span>) + chartItewWidth/<span class="number">3</span>;</div><div class="line">                    <span class="keyword">int</span> bottom = mChartHeight - getPaddingTop() - getPaddingBottom() + chartItewWidth;</div><div class="line">                    Rect rect = <span class="keyword">new</span> Rect(left, top, right, bottom);</div><div class="line">                    <span class="comment">//判断当前触摸点是否在该坐标内</span></div><div class="line">                    <span class="keyword">if</span> (rect.contains(x, y)) &#123;</div><div class="line">                        <span class="comment">//设置选中标记</span></div><div class="line">                        selectChartIndex = i;</div><div class="line">                        invalidate();<span class="comment">//重新绘制该View</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_POINTER_UP:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;<span class="comment">//自定义View消耗该点击事件</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里的绘制过程比较简单，但是已经能够说明一些问题。自定义View并不复杂，他的难度在于图形绘制时的计算，图形一旦复杂起来，计算的难度也会增大，交互效果往往也会要求更高，可能涉及滑动，这样对点击和滑动事件的处理也会麻烦起来。但是大致绘制思路知道后，绘制的计算只是时间问题，安卓也给我们提供了很多绘图方法，参考：<a href="http://blog.csdn.net/iispring/article/details/49770651" target="_blank" rel="external">Android中Canvas绘图基础详解</a></p>
+<h2 id="使用该View："><a href="#使用该View：" class="headerlink" title="使用该View："></a>使用该View：</h2><p>activity中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Bind</span>(R.id.lcv)</div><div class="line">    ListChartView lcv;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;ChartItem&gt; chartItems = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>);</div><div class="line">        init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">       </div><div class="line">        initData();</div><div class="line">        lcv.setChars(chartItems);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span> </span>&#123;</div><div class="line">        ChartItem c1 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c1.setName(<span class="string">"语文"</span>);</div><div class="line">        c1.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c1);</div><div class="line"></div><div class="line">        ChartItem c2 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c2.setName(<span class="string">"数学"</span>);</div><div class="line">        c2.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c2);</div><div class="line"></div><div class="line">        ChartItem c3 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c3.setName(<span class="string">"英语"</span>);</div><div class="line">        c3.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c3);</div><div class="line"></div><div class="line">        ChartItem c4 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c4.setName(<span class="string">"物理"</span>);</div><div class="line">        c4.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c4);</div><div class="line"></div><div class="line">        ChartItem c5 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c5.setName(<span class="string">"化学"</span>);</div><div class="line">        c5.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c5);</div><div class="line"></div><div class="line">        ChartItem c6 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c6.setName(<span class="string">"生物"</span>);</div><div class="line">        c6.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c6);</div><div class="line"></div><div class="line">        ChartItem c7 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c7.setName(<span class="string">"历史"</span>);</div><div class="line">        c7.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c7);</div><div class="line"></div><div class="line">        ChartItem c8 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c8.setName(<span class="string">"地理"</span>);</div><div class="line">        c8.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c8);</div><div class="line"></div><div class="line">        ChartItem c9 = <span class="keyword">new</span> ChartItem();</div><div class="line">        c9.setName(<span class="string">"政治"</span>);</div><div class="line">        c9.setNumber(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">        chartItems.add(c9);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>布局在activity的XML中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">com.cdlixin.mychart.view.ListChartView</span></span></div><div class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/lcv"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:padding</span>=<span class="string">"8dp"</span></span></div><div class="line"><span class="tag">        <span class="attr">app:list_chart_color</span>=<span class="string">"@color/colorAccent"</span></span></div><div class="line"><span class="tag">        <span class="attr">app:list_chart_color_select</span>=<span class="string">"@color/colorAccent2"</span></span></div><div class="line"><span class="tag">        <span class="attr">app:list_text_color</span>= <span class="string">"@color/colorText"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<h1 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h1><ul>
+<li><p><strong>在调用drawText()方法去进行绘制的时候一般需要先通过getTextBounds()方法来获取到文字的宽度和高度，例子中偷懒了，没有用到。</strong></p>
+</li>
+<li><p><strong>自定义的View在使用的时候一定要写出完整的包名，不然系统将无法找到这个View。</strong></p>
+</li>
+<li><p><strong>draw(Canvas c)方法.有点注意的是背景drawable的实际大小会影响view组件的大小，drawable的实际大小通过getIntrinsicWidth()和<br>getIntrinsicHeight()获取，当背景比较大时view组件大小等于背景drawable的大小</strong></p>
+</li>
+<li><p><strong>getWidth()和getMeasuredWidth()的区别：</strong>  </p>
+<p>getWidth(): View在设定好布局后整个View的宽度。  </p>
+<p>getMeasuredWidth(): 对View上的内容进行测量后得到的View内容占据的宽度，前提是你必须在父布局的onLayout()方法或者此View的onDraw()方法里调 用measure(0,0);(measure 参数的值你可以自己定义)，否则你得到的结果和getWidth()得到的结果一样。关于这两个方法的区别就是看你有没有用measure()方法，当然measure（）的位置也是很重要的。</p>
+</li>
+<li><p><strong>padding的处理：</strong>   </p>
+<p>直接继承自View的自定义View，计算宽高时需要自己手动处理padding，在处理点击事件计算图形边界时也需要把padding位置考虑进去。<br>直接继承ViewGroup的控件需要在onMeasure和onLayout中考虑padding和子元素的margin对其造成的影响，不然将导致pading和子元素的margin失效</p>
+</li>
+<li><p><strong>不要在View中使用Handler：</strong></p>
+<p>  这是因为View内部本身就提供了post系列方法，完全可以替代Handler的作用。除非你很明确要用Handler来发送消息。</p>
+</li>
+<li><p><strong>View中如果有线程和动画，及时停止：</strong></p>
+<p>  如果有线程和动画需要停止的时候，onDetachedFromWindow就恶意做到。这是因为当包含此View的Activity退出或者当前View被remove时，View的onDetachedFromWindow方法就会被调用。相对的，当包含此View的Activity启动时onAttachedToWindow会被调用。同时，View不可见时，我们也需要停止线程和动画，如果不及时停止，可能会导致内存泄漏。</p>
+</li>
+<li><p><strong>如果有滑动嵌套时，当然要处理好滑动冲突的问题。</strong></p>
+</li>
+</ul>
+<p><a href="https://github.com/phyDream/MyChart" target="_blank" rel="external">github地址</a></p>
+<p>ListChartView完整代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.cdlixin.mychart.view;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.content.res.TypedArray;</div><div class="line"><span class="keyword">import</span> android.graphics.Canvas;</div><div class="line"><span class="keyword">import</span> android.graphics.Color;</div><div class="line"><span class="keyword">import</span> android.graphics.Paint;</div><div class="line"><span class="keyword">import</span> android.graphics.Rect;</div><div class="line"><span class="keyword">import</span> android.graphics.RectF;</div><div class="line"><span class="keyword">import</span> android.support.annotation.Nullable;</div><div class="line"><span class="keyword">import</span> android.util.AttributeSet;</div><div class="line"><span class="keyword">import</span> android.view.MotionEvent;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.cdlixin.mychart.R;</div><div class="line"><span class="keyword">import</span> com.cdlixin.mychart.bean.ChartItem;</div><div class="line"><span class="keyword">import</span> com.cdlixin.mychart.utils.DensityUtil;</div><div class="line"><span class="keyword">import</span> com.cdlixin.mychart.utils.LogUtil;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Created by 蒲弘宇 on 2017/10/26.</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListChartView</span> <span class="keyword">extends</span> <span class="title">View</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Paint mChartPaint; <span class="comment">//柱状图画笔</span></div><div class="line">    <span class="keyword">private</span> Paint mTextPaint;<span class="comment">//文字画笔</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChartColor;<span class="comment">//默认柱状图颜色</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChartColorSelect;<span class="comment">//选中柱状图颜色</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mTextColor;<span class="comment">//文字颜色</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> itemPx;<span class="comment">//柱状图 每百分之一占的像素</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChartWidth;<span class="comment">//View宽</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mChartHeight;<span class="comment">//View高</span></div><div class="line">    <span class="keyword">private</span> List&lt;ChartItem&gt; charts = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//数据源</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> chartCount;<span class="comment">//柱状图列数</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> chartItewWidth;<span class="comment">//每根柱状图宽度</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> selectChartIndex = -<span class="number">1</span>;<span class="comment">//当前选中列数</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> textSize;<span class="comment">//文字大小</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChars</span><span class="params">(List&lt;ChartItem&gt; chartItems)</span> </span>&#123;</div><div class="line">        charts.clear();</div><div class="line">        charts.addAll(chartItems);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 如果View是在Java代码里面new的，则调用第一个构造函数</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListChartView</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(context,<span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 如果View是在.xml里声明的，则调用第二个构造函数</span></div><div class="line">    <span class="comment">// 自定义属性是从AttributeSet参数传进来的</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListChartView</span><span class="params">(Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(context, attrs,<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 不会自动调用</span></div><div class="line">    <span class="comment">// 一般是在第二个构造函数里主动调用</span></div><div class="line">    <span class="comment">// 如View有style属性时</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListChartView</span><span class="params">(Context context, @Nullable AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</div><div class="line">        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ListChartView,defStyleAttr,<span class="number">0</span>);</div><div class="line">        <span class="keyword">int</span> count = array.getIndexCount();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">            <span class="keyword">int</span> attr = array.getIndex(i);</div><div class="line">            <span class="keyword">switch</span> (attr)&#123;</div><div class="line">                <span class="keyword">case</span> R.styleable.ListChartView_list_chart_color:</div><div class="line">                    mChartColor = array.getColor(attr,Color.GREEN);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> R.styleable.ListChartView_list_chart_color_select:</div><div class="line">                    mChartColorSelect = array.getColor(attr,Color.GREEN);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> R.styleable.ListChartView_list_text_color:</div><div class="line">                    mTextColor = array.getColor(attr,Color.BLACK);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> R.styleable.ListChartView_chart_item_width:</div><div class="line">                    chartItewWidth = DensityUtil.dip2px(context,attr);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 初始化</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//柱状图画笔</span></div><div class="line">        mChartPaint = <span class="keyword">new</span> Paint();</div><div class="line">        mChartPaint.setAntiAlias(<span class="keyword">true</span>);</div><div class="line">        <span class="comment">//文字画笔</span></div><div class="line">        mTextPaint = <span class="keyword">new</span> Paint();</div><div class="line">        mTextPaint.setAntiAlias(<span class="keyword">true</span>);</div><div class="line">        mTextPaint.setTextAlign(Paint.Align.CENTER);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">        <span class="keyword">int</span> width;</div><div class="line">        <span class="keyword">int</span> height;</div><div class="line">        <span class="keyword">int</span> widthSize = MeasureSpec.getSize(widthMeasureSpec);</div><div class="line">        <span class="keyword">int</span> widthMode= MeasureSpec.getMode(widthMeasureSpec);</div><div class="line">        <span class="keyword">int</span> heightSize = MeasureSpec.getSize(heightMeasureSpec);</div><div class="line">        <span class="keyword">int</span> heightMode= MeasureSpec.getMode(heightMeasureSpec);</div><div class="line"></div><div class="line">        <span class="comment">//默认宽就是父控件剩余，默认高是父控件一半</span></div><div class="line">        width = widthSize;</div><div class="line">        <span class="keyword">if</span>(heightMode == MeasureSpec.EXACTLY)&#123;</div><div class="line">            height = heightSize;</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            height = heightSize / <span class="number">2</span>;</div><div class="line">        &#125;</div><div class="line">        setMeasuredDimension(width,height);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onLayout(changed, left, top, right, bottom);</div><div class="line">        mChartWidth = getWidth() - getPaddingLeft() - getPaddingRight();</div><div class="line">        mChartHeight = getMeasuredHeight() - getPaddingBottom() - getPaddingTop();</div><div class="line">        itemPx = mChartHeight / <span class="number">110</span>;<span class="comment">//得到每百分之一高度,算上底部文字</span></div><div class="line">        chartCount = charts.size();<span class="comment">//得到组数</span></div><div class="line">        chartItewWidth = mChartWidth / (chartCount * <span class="number">2</span> +<span class="number">1</span>);<span class="comment">//每根柱子的宽</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDraw(canvas);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chartCount; i++) &#123;</div><div class="line">            drawChart(canvas,i);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 画第n根柱子</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> canvas</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> n</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawChart</span><span class="params">(Canvas canvas,<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">        ChartItem item = charts.get(n);</div><div class="line">        <span class="keyword">int</span> number = item.getNumber();</div><div class="line">        String name = item.getName();</div><div class="line">        <span class="comment">//画柱子</span></div><div class="line">        RectF recF = <span class="keyword">new</span> RectF();</div><div class="line">        recF.top = mChartHeight - (number + <span class="number">10</span>) * itemPx ;</div><div class="line">        recF.left = chartItewWidth * (<span class="number">2</span> * n + <span class="number">1</span>) ;</div><div class="line">        recF.bottom = mChartHeight - <span class="number">10</span> * itemPx;</div><div class="line">        recF.right = chartItewWidth * (<span class="number">2</span> * n + <span class="number">2</span>);</div><div class="line">        <span class="keyword">if</span>(selectChartIndex == n)&#123;</div><div class="line">            mChartPaint.setColor(mChartColorSelect);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            mChartPaint.setColor(mChartColor);</div><div class="line">        &#125;</div><div class="line">        canvas.drawRoundRect(recF,<span class="number">30</span>,<span class="number">30</span>,mChartPaint);</div><div class="line">        <span class="comment">//画文字</span></div><div class="line">        <span class="keyword">int</span> x = chartItewWidth * (<span class="number">2</span> * n + <span class="number">1</span>) + chartItewWidth / <span class="number">2</span>;</div><div class="line">        <span class="keyword">int</span> y = mChartHeight - <span class="number">3</span> * itemPx ;</div><div class="line">        textSize = <span class="number">6</span>*itemPx;</div><div class="line">        mTextPaint.setColor(mTextColor);</div><div class="line">        mTextPaint.setTextSize(textSize);</div><div class="line">        canvas.drawText(name,x,y,mTextPaint);</div><div class="line">        <span class="comment">//画选中文字</span></div><div class="line">        <span class="keyword">if</span>(selectChartIndex == n)&#123;</div><div class="line">            <span class="keyword">int</span> x1 = chartItewWidth * (<span class="number">2</span> * n + <span class="number">1</span>) + chartItewWidth / <span class="number">2</span> - <span class="number">8</span> * itemPx;</div><div class="line">            <span class="keyword">int</span> y1 = mChartHeight - (number + <span class="number">10</span>) * itemPx + <span class="number">3</span> * itemPx;</div><div class="line">            mTextPaint.setTextSize(textSize);</div><div class="line">            canvas.drawText(number+<span class="string">""</span>,x1,y1,mTextPaint);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//点击事件处理</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> x = (<span class="keyword">int</span>) event.getX();<span class="comment">//触摸点的X坐标</span></div><div class="line">        <span class="keyword">int</span> y = (<span class="keyword">int</span>) event.getY();<span class="comment">//触摸点的Y坐标</span></div><div class="line">        <span class="keyword">switch</span> (event.getAction())&#123;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chartCount; i++) &#123;</div><div class="line">                    ChartItem item = charts.get(i);</div><div class="line">                    <span class="keyword">int</span> number = item.getNumber();</div><div class="line">                    <span class="comment">//计算柱状图坐标</span></div><div class="line">                    <span class="keyword">int</span> top =  mChartHeight - (number + <span class="number">10</span>) * itemPx + getPaddingTop() - chartItewWidth;</div><div class="line">                    <span class="keyword">int</span> left = getPaddingLeft() + chartItewWidth * (<span class="number">2</span> * i + <span class="number">1</span>) - chartItewWidth/<span class="number">3</span>;</div><div class="line">                    <span class="keyword">int</span> right = getPaddingLeft() + chartItewWidth * (<span class="number">2</span> * i + <span class="number">2</span>) + chartItewWidth/<span class="number">3</span>;</div><div class="line">                    <span class="keyword">int</span> bottom = mChartHeight - getPaddingTop() - getPaddingBottom() + chartItewWidth;</div><div class="line">                    Rect rect = <span class="keyword">new</span> Rect(left, top, right, bottom);</div><div class="line">                    <span class="comment">//判断当前触摸点是否在该坐标内</span></div><div class="line">                    <span class="keyword">if</span> (rect.contains(x, y)) &#123;</div><div class="line">                        <span class="comment">//设置选中标记</span></div><div class="line">                        selectChartIndex = i;</div><div class="line">                        invalidate();<span class="comment">//重新绘制该View</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_POINTER_UP:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;<span class="comment">//自定义View消耗该点击事件</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+	
+	 <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android基础/" rel="tag"><i class="fa fa-tag"></i>Android基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/15/polymorphism/" rel="next" title="面向对象中的多态">
+                <i class="fa fa-chevron-left"></i> 面向对象中的多态
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.png"
+              alt="蒲弘宇" />
+          
+            <p class="site-author-name" itemprop="name">蒲弘宇</p>
+            <p class="site-description motion-element" itemprop="description">生当作人杰</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/phyDream" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-GitHub"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2929952381/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义View的分类："><span class="nav-number">2.</span> <span class="nav-text">自定义View的分类：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、继承特定的View"><span class="nav-number">2.1.</span> <span class="nav-text">1、继承特定的View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、继承特定的ViewGroup"><span class="nav-number">2.2.</span> <span class="nav-text">2、继承特定的ViewGroup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、直接继承View"><span class="nav-number">2.3.</span> <span class="nav-text">3、直接继承View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、直接继承ViewGourp"><span class="nav-number">2.4.</span> <span class="nav-text">4、直接继承ViewGourp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例："><span class="nav-number">3.</span> <span class="nav-text">案例：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义一个自定义View"><span class="nav-number">3.1.</span> <span class="nav-text">定义一个自定义View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测量宽高："><span class="nav-number">3.2.</span> <span class="nav-text">测量宽高：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View布局："><span class="nav-number">3.3.</span> <span class="nav-text">View布局：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View绘制："><span class="nav-number">3.4.</span> <span class="nav-text">View绘制：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对外提供方法："><span class="nav-number">3.5.</span> <span class="nav-text">对外提供方法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点击事件："><span class="nav-number">3.6.</span> <span class="nav-text">点击事件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用该View："><span class="nav-number">3.7.</span> <span class="nav-text">使用该View：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意点："><span class="nav-number">4.</span> <span class="nav-text">注意点：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蒲弘宇</span>
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.2</div>
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
