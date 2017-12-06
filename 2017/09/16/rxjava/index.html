@@ -119,7 +119,7 @@
 <meta property="og:site_name" content="弘观世界">
 <meta property="og:description" content="让你的代码简洁起来，RxJava你值得拥有">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-18T01:44:11.471Z">
+<meta property="og:updated_time" content="2017-12-06T02:49:04.364Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava入门简介">
 <meta name="twitter:description" content="让你的代码简洁起来，RxJava你值得拥有">
@@ -446,7 +446,7 @@
 <li>onError() : 数据获取失败时调用</li>
 <li>onNext() : 获取数据后的下一步操作</li>
 </ul>
-<p>观察者就是从被观察者那里<strong>得到数据</strong>，并在回调方法onNext(String s)中执行<strong>数据展示</strong>，</p>
+<p>观察者就是从被观察者那里<strong>得到数据</strong>，并在回调方法onNext(String s)中执行<strong>数据展示</strong>。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Observer&lt;String&gt; observer = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">                <span class="comment">//数据接收完成时调用</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line"></div><div class="line">                <span class="comment">//发生错误调用</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</div><div class="line"></div><div class="line">               <span class="comment">//正常接收数据调用</span></div><div class="line">                System.out.print(s);  <span class="comment">//</span></div><div class="line">            &#125;</div><div class="line">        &#125;;</div></pre></td></tr></table></figure>
 <h3 id="3、订阅操作"><a href="#3、订阅操作" class="headerlink" title="3、订阅操作"></a>3、订阅操作</h3><p>observable和observer建立联系，要注意的是，订阅操作是 被观察者-<strong>订阅</strong>-观察者，即同一个数据源可以给多个观察者提供数据，类似于某些资讯类APP有目的性的给特定用户发送资讯推送</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">observable.subscribe(observer);</div></pre></td></tr></table></figure>
